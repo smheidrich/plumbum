@@ -355,3 +355,9 @@ class RemoteWorkdir(RemotePath):
             yield changed_dir
         finally:
             self.chdir(prev)
+
+    # this needs to be overwritten purely so that it returns a RemotePath
+    # instead of another RemoteWorkdir
+    @_setdoc(Path)
+    def join(self, *parts):
+        return RemotePath(self.remote, self, *parts)
