@@ -203,6 +203,7 @@ class ParamikoMachine(BaseRemoteMachine):
                  port=None,
                  password=None,
                  keyfile=None,
+                 pkey=None,
                  load_system_host_keys=True,
                  missing_host_policy=None,
                  encoding="utf8",
@@ -227,6 +228,8 @@ class ParamikoMachine(BaseRemoteMachine):
             kwargs["port"] = port
         if keyfile is not None:
             kwargs["key_filename"] = keyfile
+        if pkey is not None:
+            kwargs["pkey"] = pkey
         if password is not None:
             kwargs["password"] = password
         if missing_host_policy is not None:
