@@ -1,0 +1,13 @@
+windows_container:
+  image: python:3.6-windowsservercore
+
+task:
+  env:
+    CIRRUS_SHELL: powershell
+  script:
+    - pip install -r dev-requirements.txt
+    - pip install coveralls
+    - pip install wheel
+    - pip install pypiwin32
+    - pip install -e .
+    - python setup.py test -c
