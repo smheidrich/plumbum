@@ -1249,3 +1249,13 @@ class TestLocalEncoding:
         os.chmod(name, st.st_mode | stat.S_IEXEC)
 
         assert "yes" in local[local.cwd / name]()
+
+    def test_issues_359_385(self):
+        try:
+            local['bash']('-c', u"/bin/echo foobar \u25cf ; exit 1")
+        except ProcessExecutionError as e:
+            # confirm that the exception is printable at all
+            print("(Not a real exception, please ignore:)")
+            print(e)
+            # confirm that the string from the output is in its str representation
+            assert "foobar" in str(e)
