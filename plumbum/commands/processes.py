@@ -79,8 +79,16 @@ class ProcessExecutionError(EnvironmentError):
         self.stderr = stderr
 
     def __str__(self):
-        stdout = "\n         | ".join(str(self.stdout).splitlines())
-        stderr = "\n         | ".join(str(self.stderr).splitlines())
+        # cf. python_2_unicode_compatible decorator from the "actual" six
+        # library (not the stripped-down version that comes with Plumbum)
+        if six.PY3:
+            return self.__unicode__()
+        else:
+            return self.__unicode__().encode("utf-8")
+
+    def __unicode__(self):
+        stdout = "\n         | ".join(six.str(self.stdout).splitlines())
+        stderr = "\n         | ".join(six.str(self.stderr).splitlines())
         lines = [
             "Command line: %r" % (self.argv, ),
             "Exit code: %s" % (self.retcode)
